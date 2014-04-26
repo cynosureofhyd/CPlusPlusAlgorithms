@@ -107,11 +107,16 @@ int maxDepth(node* node)
 // Assuming -9999 doesnt exist in the node as a value and if node is null we return that value
 int minValue(node * node)
 {
+	struct node* current = node;
 	if(node == NULL)
 		return -9999;
 	else
 	{
-		
+		while(current->left != NULL)
+		{
+			current = current->left;
+		}
+		return current->data;
 	}
 }
 
@@ -138,5 +143,7 @@ int main()
 	cout << size(node);
 	cout << "Max Depth " << endl;
 	cout << maxDepth(node) << endl;
+	cout << "Min Value " << endl;
+	cout << minValue(node) << endl;
 	return 0;
 }
