@@ -136,6 +136,45 @@ static int sizeItr(node* node)
 	}
 }
 
+
+void printTree(struct node* node)
+{
+	if(node == NULL)
+		return;
+	else
+	{
+		printTree(node->left);
+		cout << node->data;
+		printTree(node->right);
+	}
+}
+
+void printPostOrderTree(struct node* node)
+{
+	if(node == NULL)
+		return;
+	else
+	{
+		printTree(node->left);
+		printTree(node->right);
+		cout << node->data;
+	}
+}
+
+
+static bool hasPathSum(struct node* node, int sum)
+{
+	if(node == NULL)
+		return false;
+	if(node->data == sum)
+		return true;
+	else
+	{
+		int subSum = sum - node->data;
+		return hasPathSum(node->left, subSum) || hasPathSum(node->right, subSum);
+	}
+}
+
 int main()
 {
 	struct node* node = CreateBinaryTree(5);
