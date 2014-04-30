@@ -5,6 +5,8 @@
 #include "simpio.h"
 #include "vector.h"
 #include <iostream>
+#include "stack.h"
+#include "queue.h"
 
 struct node
 {
@@ -175,14 +177,110 @@ static bool hasPathSum(struct node* node, int sum)
 	}
 }
 
+//Given a binary tree, print out all of its root-to-leaf paths as defined above
+static void printPaths(struct node* node)
+{
+	if(node == NULL)
+		return;
+	if(node->left == NULL && node->right == NULL)
+		cout << node->data << endl;
+}
+
+static void printLevelOrder(struct node* node)
+{
+	int counter = 0; 
+	Queue<struct node *> queue;
+	if(node == NULL)
+		return;
+	struct node* temp = node;
+	while(temp != NULL)
+	{
+		/*if(temp->left == NULL && temp->right == NULL && queue.size() == 0)
+			return;*/
+		cout << temp->data << endl;
+		if(temp->left != NULL)
+			queue.enqueue(temp->left);
+		if(temp->right != NULL)
+			queue.enqueue(temp->right);
+		if(queue.size() == 0)
+			return;
+		if(queue.size() > 0)
+			temp = queue.dequeue();
+	}
+}
+
+bool isEven(int number)
+{
+	if(number % 2 == 0)
+		return true;
+	else
+		return false;
+}
+
+
+static void printSpiralOrder(struct node* node)
+{
+	int counter = 0; 
+	Queue<struct node *> queue;
+	if(node == NULL)
+		return;
+	struct node* temp = node;
+	while(temp != NULL)
+	{
+		/*if(temp->left == NULL && temp->right == NULL && queue.size() == 0)
+			return;*/
+		cout << temp->data << endl;
+		if(isEven(counter))
+		{
+			if(temp->left != NULL)
+				queue.enqueue(temp->left);
+			if(temp->right != NULL)
+				queue.enqueue(temp->right);		
+			counter++;
+		}
+		else if(!isEven(counter))
+		{
+			if(temp->right != NULL)
+				queue.enqueue(temp->right);
+			if(temp->left != NULL)
+				queue.enqueue(temp->left);		
+			counter++;
+		}
+		if(queue.size() == 0)
+			return;
+		if(queue.size() > 0)
+			temp = queue.dequeue();
+	}
+}
+
+static void AddToQueue(struct node* node, Queue<struct node* > queue)
+{
+	
+}
+
+
 int main()
 {
+	// Creates a node from 0 to 4
 	struct node* node = CreateBinaryTree(5);
+	//		2
+	//	/		\
+	//	0		3
+	//		\		\
+	//		1		4
+	//				\
+	//					5
+
 	InsertNode(node,5);
 	cout << size(node);
 	cout << "Max Depth " << endl;
 	cout << maxDepth(node) << endl;
 	cout << "Min Value " << endl;
 	cout << minValue(node) << endl;
+	cout << "Print Level Order " << endl;
+	printLevelOrder(node);
+	cout << "Print Spiral Order " << endl;
+	printSpiralOrder(node);
+	
 	return 0;
 }
