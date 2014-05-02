@@ -178,13 +178,6 @@ static bool hasPathSum(struct node* node, int sum)
 }
 
 //Given a binary tree, print out all of its root-to-leaf paths as defined above
-static void printPaths(struct node* node)
-{
-	if(node == NULL)
-		return;
-	if(node->left == NULL && node->right == NULL)
-		cout << node->data << endl;
-}
 
 static void printLevelOrder(struct node* node)
 {
@@ -217,7 +210,35 @@ bool isEven(int number)
 		return false;
 }
 
+void PrintPathsRecur(struct node* node, int path[], int pathLength)
+{
+	
+}
 
+void printPaths(struct node* node)
+{
+	int path[100000];
+	int pathLength;
+	PrintPathsRecur(node, path, pathLength);
+}
+
+
+static void mirror(struct node* node)
+{
+	if(node == NULL)
+		return;
+	else
+	{
+		mirror(node->left);
+		mirror(node->right);
+		// swap pointers in this node
+		struct node* temp = node->left;
+		node->left = node->right;
+		node->right = temp;
+	}
+}
+
+// This code is wrong
 static void printSpiralOrder(struct node* node)
 {
 	int counter = 0; 
@@ -258,6 +279,26 @@ static void AddToQueue(struct node* node, Queue<struct node* > queue)
 	
 }
 
+/* 
+ For each node in a binary search tree, 
+ create a new duplicate node, and insert 
+ the duplicate as the left child of the original node. 
+ The resulting tree should still be a binary search tree.
+ */
+void doubleTree(struct node* node)
+{
+	struct node* oldLeft;
+	if (node==NULL) return;
+
+	  // do the subtrees 
+	  doubleTree(node->left); 
+	  doubleTree(node->right);
+
+	  // duplicate this node to its left 
+	  oldLeft = node->left; 
+	  node->left = CreateNode(node->data); 
+	  node->left->left = oldLeft; 
+}
 
 int main()
 {
@@ -280,7 +321,8 @@ int main()
 	cout << "Print Level Order " << endl;
 	printLevelOrder(node);
 	cout << "Print Spiral Order " << endl;
-	printSpiralOrder(node);
-	
+	//printSpiralOrder(node);
+	doubleTree(node);
+	//mirror	(node);
 	return 0;
 }
